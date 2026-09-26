@@ -22,12 +22,12 @@ export default function NotFound({ onBack }) {
 
             {/* 3. The "Backbench" Flavor Text */}
             <h2 style={{marginTop: 10, fontSize: '1.4rem', fontWeight: 700}}>
-                Galat Class Me Aa Gaya?
+                Wrong Room?
             </h2>
             
             <p style={{color: 'rgba(255,255,255,0.6)', marginTop: 15, lineHeight: 1.6}}>
-                Ye page syllabus me nahi hai bro. <br/>
-                Teacher aane se pehle nikal le.
+                This page doesn't exist bro. <br/>
+                Get out before the teacher catches you.
             </p>
 
             {/* 4. Go Back Button */}
@@ -36,7 +36,7 @@ export default function NotFound({ onBack }) {
                 onClick={onBack} 
                 style={{marginTop: 30}}
             >
-                Wapis Lobby Bhaag 🏃‍♂️
+                Back to Lobby 🏃‍♂️
             </button>
 
             {/* Simple Shake Animation */}

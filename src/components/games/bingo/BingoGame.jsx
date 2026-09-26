@@ -73,10 +73,10 @@ export default function Game({ user, roomId, hostId, board, marked, setMarked, a
                 
                 if (currentId === user.id) {
                     setIsMyTurn(true);
-                    setTurnMsg("CHAL TERI BAARI 🫵");
+                    setTurnMsg("Your turn! 🫵");
                 } else {
                     setIsMyTurn(false);
-                    setTurnMsg(`Ruk, ${currentPlayer?.name || 'Woh'} Soch Raha Hai...`);
+                    setTurnMsg(`Wait, ${currentPlayer?.name || 'They'} is thinking...`);
                 }
             }
         });
@@ -176,7 +176,7 @@ const handleMove = (num) => {
         // 🛑 2. NEW SAFETY CHECK: Is this number already crossed out?
         const cellIndex = board.indexOf(num);
         if (marked.includes(cellIndex)) {
-            addToast("Abe ho chuka hai ye!", "error");
+            addToast("Already marked!", "error");
             return; 
         }
 
@@ -220,10 +220,8 @@ const handleMove = (num) => {
                 lastCalled: null
             });
         } else {
-            if(confirm("Leave the room entirely?")) {
-                remove(ref(db, `rooms/${roomId}/players/${user.id}`));
-                onBack();
-            }
+            remove(ref(db, `rooms/${roomId}/players/${user.id}`));
+            onBack();
         }
     };
 
@@ -255,9 +253,9 @@ const handleMove = (num) => {
 
     return (
         <div className="card glass">
-            {/* 1. B I M G O Letters */}
+            {/* 1. B I N G O Letters */}
             <div className="award-track">
-                {['B', 'I', 'M', 'G', 'O'].map((char, i) => (
+                {['B', 'I', 'N', 'G', 'O'].map((char, i) => (
                     <div key={i} className={`award-letter ${i < winCount ? 'unlocked' : ''}`}>{char}</div>
                 ))}
             </div>
@@ -346,7 +344,7 @@ const handleMove = (num) => {
                         }}
                         onClick={handleExit}
                     >
-                        {(user.id === hostId) ? "End Game" : "Bhaagna Hai?"}
+                        {(user.id === hostId) ? "End Game" : "Leave Game"}
                     </button>
                 </div>
 

@@ -102,9 +102,9 @@ export default function Lobby({ user, setUser, setRoom, setView, addToast }) {
                 <div className="fade-in" style={{textAlign:'center'}}>
                     <div style={{fontSize: '4rem', marginBottom: 10, animation: 'wave 2s infinite'}}>👋</div>
                     <h1 style={{fontSize:'2.5rem', fontWeight:800, marginBottom:10}}>
-                        Ha Bhai Fursatiye Aagaye?
+                        Welcome to the Arcade!
                     </h1>
-                    <p style={{marginBottom: 30, opacity:0.7}}>Pehchaan bata apni.</p>
+                    <p style={{marginBottom: 30, opacity:0.7}}>Enter your name.</p>
 
                     <div className="input-group" style={{marginBottom: 25}}>
                         <input
@@ -147,7 +147,7 @@ export default function Lobby({ user, setUser, setRoom, setView, addToast }) {
                             onMouseEnter={e => e.target.style.color = 'white'}
                             onMouseLeave={e => e.target.style.color = 'rgba(255,255,255,0.4)'}
                         >
-                            {showAbout ? "Close Info" : "Yeh Hai Kya?"} 
+                            {showAbout ? "Close Info" : "What is this?"} 
                             <span style={{fontSize:'0.8em'}}>{showAbout ? '▲' : '▼'}</span>
                         </button>
 
@@ -172,7 +172,7 @@ export default function Lobby({ user, setUser, setRoom, setView, addToast }) {
                                 </p>
 
                                 <p style={{fontSize: '0.9rem', lineHeight: '1.6', opacity: 0.85, marginBottom: 15}}>
-                                    No install. No history. <b>Bas link kholo, join karo, aur shuru ho jao.</b> Even if the servers go quiet, this arcade stays here as a permanent artifact of the fun we had.
+                                    No install. No history. <b>Just open the link, join, and start playing.</b> Even if the servers go quiet, this arcade stays here as a permanent artifact of the fun we had.
                                 </p>
 
                                 <div style={{fontSize: '0.85rem', fontStyle: 'italic', opacity: 0.6, borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: 10}}>
@@ -221,7 +221,7 @@ export default function Lobby({ user, setUser, setRoom, setView, addToast }) {
                             className="hover-card"
                         >
                             <div>
-                                <div style={{fontSize:'1.4rem', fontWeight:800, marginBottom:4}}>Apna Adda Banao</div>
+                                <div style={{fontSize:'1.4rem', fontWeight:800, marginBottom:4}}>Create a Room</div>
                                 <div style={{fontSize:'0.9rem', opacity:0.7}}>Create a new room</div>
                             </div>
                         </div>
@@ -230,8 +230,8 @@ export default function Lobby({ user, setUser, setRoom, setView, addToast }) {
                         <div 
                             onClick={() => setStep(3)}
                             style={{
-                                background: 'linear-gradient(135deg, rgba(0, 122, 255, 0.2) 0%, rgba(0, 122, 255, 0.05) 100%)',
-                                border: '1px solid rgba(0, 122, 255, 0.3)',
+                                background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%)',
+                                border: '1px solid rgba(255, 255, 255, 0.15)',
                                 borderRadius: 24,
                                 padding: 25,
                                 cursor: 'pointer',
@@ -241,7 +241,7 @@ export default function Lobby({ user, setUser, setRoom, setView, addToast }) {
                             className="hover-card"
                         >
                             <div>
-                                <div style={{fontSize:'1.4rem', fontWeight:800, marginBottom:4}}>Dusre ek Adda me Jao</div>
+                                <div style={{fontSize:'1.4rem', fontWeight:800, marginBottom:4}}>Join a Room</div>
                                 <div style={{fontSize:'0.9rem', opacity:0.7}}>Join friend's room</div>
                             </div>
                         </div>
@@ -257,7 +257,7 @@ export default function Lobby({ user, setUser, setRoom, setView, addToast }) {
             {step === 3 && (
                 <div className="fade-in" style={{textAlign:'center'}}>
                     <h2 style={{fontSize:'1.8rem', fontWeight:800, marginBottom:10}}>Secret Code?</h2>
-                    <p style={{marginBottom: 30}}>Jo tere dost ne diya hai.</p>
+                    <p style={{marginBottom: 30}}>Enter the code given by your friend.</p>
 
                     <div className="input-group" style={{marginBottom: 25}}>
                         <input

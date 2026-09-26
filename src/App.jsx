@@ -4,6 +4,9 @@ import { ref, onValue, update } from 'firebase/database';
 import { signInAnonymously, onAuthStateChanged } from 'firebase/auth'; // <--- Import Auth methods
 import './App.css';
 import NotFound from './components/core/NotFound';
+import Terms from './components/core/Terms';
+import Privacy from './components/core/Privacy';
+import { useDiscord } from './components/core/DiscordProvider';
 
 // --- CORE COMPONENTS ---
 import Lobby from './components/core/Lobby';
@@ -11,13 +14,14 @@ import GameSelector from './components/core/GameSelector';
 import ToastContainer, { useToast } from './components/core/Toast';
 
 // --- GAME MODULES ---
-import BimgoSetup from './components/games/bimgo/BimgoSetup';
-import BimgoGame from './components/games/bimgo/BimgoGame';
+import BingoSetup from './components/games/bingo/BingoSetup';
+import BingoGame from './components/games/bingo/BingoGame';
 import BloxGame from './components/games/blox/BloxGame';
 import TicTacToeGame from './components/games/tictactoe/TicTacToeGame';
 
 export default function App() {
   const { toasts, addToast, removeToast } = useToast();
+  const { discordUser } = useDiscord();
 
   // 1. SMART LOADER
   const loadState = () => {
@@ -37,49 +41,64 @@ export default function App() {
   
   const [room, setRoom] = useState({ id: savedState?.roomId || "", data: null });
 
-  // 🆕 FIXED VIEW LOGIC (Merged URL check + Save check)
-  const isWrongURL = window.location.pathname !== "/" && window.location.pathname !== "/index.html";
+  const path = window.location.pathname;
+  const isWrongURL = path !== "/" && path !== "/index.html" && path !== "/terms" && path !== "/privacy";
   
   const [view, setView] = useState(() => {
       // Priority 1: Did they type a garbage URL? -> Show 404
       if (isWrongURL) return "404_ERROR"; 
+      if (path === "/terms") return "terms";
+      if (path === "/privacy") return "privacy";
       
       // Priority 2: Do they have a saved game? -> Restore it
       return savedState?.roomId ? "restoring" : "lobby";
   });
 
-  const [bimgoBoard, setBimgoBoard] = useState(savedState?.bimgoBoard || Array(25).fill(null));
-  const [bimgoMarked, setBimgoMarked] = useState(savedState?.bimgoMarked || []);
+  const [bingoBoard, setBingoBoard] = useState(savedState?.bingoBoard || Array(25).fill(null));
+  const [bingoMarked, setBingoMarked] = useState(savedState?.bingoMarked || []);
   const [isAuthReady, setIsAuthReady] = useState(false);
+  const [authError, setAuthError] = useState(null);
 
-
-  // --- 3. SECURITY: SILENT LOGIN ---
+  // --- 2.5 RESTORE TIMEOUT FAILSAFE ---
+  // If Firebase hangs and we are stuck in 'restoring' for more than 4 seconds, abort.
   useEffect(() => {
-    // Check if we are already logged in from a previous session
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-        if (currentUser) {
-            // User is signed in. Use their REAL secure ID.
-            setUser(prev => ({ ...prev, id: currentUser.uid }));
-            setIsAuthReady(true);
-        } else {
-            // No user? Sign them in anonymously.
-            signInAnonymously(auth).catch((error) => {
-                console.error("Auth Failed", error);
-                addToast("Login failed. Check internet.", "error");
-            });
-        }
-    });
-    return () => unsubscribe();
-  }, []);
+      if (view === "restoring") {
+          const timer = setTimeout(() => {
+              console.warn("Restore timed out, returning to lobby");
+              setRoom({ id: "", data: null });
+              setView("lobby");
+          }, 4000);
+          return () => clearTimeout(timer);
+      }
+  }, [view]);
+
+  // --- 3. IDENTITY: BYPASS FIREBASE AUTH ---
+  useEffect(() => {
+      // Since DiscordProvider blocks rendering until it finishes, 
+      // discordUser is already finalized by the time this runs.
+      if (discordUser) {
+          // Use their real Discord ID and Username
+          setUser(prev => ({
+              ...prev,
+              id: discordUser.id,
+              name: discordUser.username
+          }));
+      } else {
+          // Not in Discord (or Discord auth failed). Use local ID.
+          const localId = savedState?.user?.id || 'web-' + Math.random().toString(36).substr(2, 9);
+          setUser(prev => ({ ...prev, id: localId }));
+      }
+      setIsAuthReady(true);
+  }, [discordUser]);
 
   // --- 4. PERSISTENCE ---
   useEffect(() => {
     if (user.id) {
         sessionStorage.setItem("backbench_state", JSON.stringify({
-            user, roomId: room.id, bimgoBoard, bimgoMarked
+            user, roomId: room.id, bingoBoard, bingoMarked
         }));
     }
-  }, [user, room.id, bimgoBoard, bimgoMarked]);
+  }, [user, room.id, bingoBoard, bingoMarked]);
 
   // --- 5. ROOM LISTENER (With Host Migration) ---
   useEffect(() => {
@@ -112,9 +131,9 @@ export default function App() {
         // ------------------------------------------
 
         if (!data.activeGame) setView("selector"); 
-        else if (data.activeGame === "BIMGO") {
-            if (data.status === "SETUP") setView("bimgo-setup");
-            else if (data.status === "PLAYING") setView("bimgo-game");
+        else if (data.activeGame === "BINGO") {
+            if (data.status === "SETUP") setView("bingo-setup");
+            else if (data.status === "PLAYING") setView("bingo-game");
         }
         else if (data.activeGame === "BLOX") {
             setView("blox-game");
@@ -134,27 +153,34 @@ export default function App() {
 
   const handleBackToLobby = () => {
     setRoom({ id: "", data: null });
-    setBimgoBoard(Array(25).fill(null)); 
-    setBimgoMarked([]);
+    setBingoBoard(Array(25).fill(null)); 
+    setBingoMarked([]);
     setView("lobby");
   };
 
   // Prevent app from loading until Auth is ready
-  if (!isAuthReady) return <div className="app-container"><h2 style={{marginTop:100, textAlign:'center'}}>Loading Secure ID...</h2></div>;
+  if (!isAuthReady) {
+    return (
+      <div className="app-container">
+        <h2 style={{marginTop:100, textAlign:'center'}}>
+          {authError ? "Firebase Error: " + authError : "Loading Secure ID..."}
+        </h2>
+      </div>
+    );
+  }
 
   return (
     <div className="app-container">
-      <div className="background-blob"></div>
       <header>
         <div className="logo">
-           {view.includes('bimgo') ? 'Bimgo' : 'Last Page Arcade'}
+           {view.includes('bingo') ? 'Bingo' : 'Last Page Arcade'}
         </div>
       </header>
 
       <main className="main-content">
           {view === "restoring" && (
               <div className="card glass" style={{textAlign:'center', padding: 40}}>
-                  <h2>Reconnecting...</h2><p>Hold tight, finding your Adda.</p>
+                  <h2>Reconnecting...</h2><p>Hold tight, finding your Room.</p>
               </div>
           )}
 
@@ -177,21 +203,21 @@ export default function App() {
             />
           )}
 
-          {view === "bimgo-setup" && (
-            <BimgoSetup
-              user={user} roomId={room.id} board={bimgoBoard} setBoard={setBimgoBoard}
+          {view === "bingo-setup" && (
+            <BingoSetup
+              user={user} roomId={room.id} board={bingoBoard} setBoard={setBingoBoard}
               onBack={handleBackToLobby} addToast={addToast}
             />
           )}
 
-          {view === "bimgo-game" && (
-            <BimgoGame
+          {view === "bingo-game" && (
+            <BingoGame
               user={user}
               roomId={room.id}
               hostId={room.data.hostId} 
-              board={bimgoBoard}
-              marked={bimgoMarked}
-              setMarked={setBimgoMarked}
+              board={bingoBoard}
+              marked={bingoMarked}
+              setMarked={setBingoMarked}
               addToast={addToast}
               onBack={handleBackToLobby}
             />
@@ -215,11 +241,15 @@ export default function App() {
                 addToast={addToast}
             />
           )}
+
+          {view === "terms" && <Terms />}
+          {view === "privacy" && <Privacy />}
+
           {/* 🆕 404 CATCH-ALL */}
           {![
               "restoring", "lobby", "selector", 
-              "bimgo-setup", "bimgo-game", 
-              "blox-game", "ttt-game"
+              "bingo-setup", "bingo-game", 
+              "blox-game", "ttt-game", "terms", "privacy"
           ].includes(view) && (
               <NotFound onBack={() => {
                   // Clean the URL bar without reloading
@@ -229,61 +259,7 @@ export default function App() {
           )}
       </main>
 
-      {view === "lobby" && (
-        <footer className="glass-footer">
-          {/* LEFT SIDE: Credits */}
-          <div style={{display: 'flex', alignItems: 'center', gap: 6}}>
-            <span>Made by </span>
-            <a 
-              href="https://yuvrajs.me" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="footer-link"
-            >
-              Yuvraj
-            </a>
-          </div>
 
-          {/* RIGHT SIDE: Actions */}
-          <div style={{display: 'flex', alignItems: 'center', gap: 15}}>
-            
-            {/* 1. GITHUB LINK */}
-            <a 
-              href="https://github.com/yuvraj-sisodia" // Update this with your actual repo
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="footer-icon"
-              title="See the Code"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/>
-              </svg>
-            </a>
-
-            {/* 2. BUG REPORT (GitHub Issues) */}
-            <a 
-              /* 👇 CHANGE THIS LINK to your actual repo URL */
-              href="https://github.com/yuvraj-sisodia/YOUR-REPO-NAME/issues/new?title=Bug%20Report&body=Describe%20the%20bug%20here..."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="footer-icon"
-              title="Report a Bug on GitHub"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect width="8" height="14" x="8" y="6" rx="4"/>
-                <path d="m19 19-3-3"/>
-                <path d="m5 19 3-3"/>
-                <path d="m19 12-3 0"/>
-                <path d="m5 12 3 0"/>
-                <path d="m19 5-3 3"/>
-                <path d="m5 5 3 3"/>
-                <path d="m12 6V4"/>
-              </svg>
-            </a>
-
-          </div>
-        </footer>
-      )}
       
       <ToastContainer toasts={toasts} removeToast={removeToast} />
     </div>

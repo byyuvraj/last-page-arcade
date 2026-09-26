@@ -91,21 +91,40 @@ export default function Setup({ user, roomId, board, setBoard, onBack, addToast 
         if (isHost) {
             update(ref(db, `rooms/${roomId}`), { activeGame: null, status: "WAITING" });
         } else {
-            if(confirm("Exit this room?")) {
-                remove(ref(db, `rooms/${roomId}/players/${user.id}`));
-                onBack(); 
-            }
+            remove(ref(db, `rooms/${roomId}/players/${user.id}`));
+            onBack(); 
         }
     };
 
     const handleCopyCode = () => {
-        navigator.clipboard.writeText(roomId).then(() => {
-            addToast("Code Copied!", "success");
-        }).catch(() => addToast("Failed to copy code", "error"));
+        const fallbackCopy = () => {
+            const el = document.createElement('textarea');
+            el.value = roomId;
+            el.setAttribute('readonly', '');
+            el.style.position = 'absolute';
+            el.style.left = '-9999px';
+            document.body.appendChild(el);
+            el.select();
+            try {
+                document.execCommand('copy');
+                addToast("Code Copied!", "success");
+            } catch (err) {
+                addToast("Failed to copy code", "error");
+            }
+            document.body.removeChild(el);
+        };
+
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(roomId)
+                .then(() => addToast("Code Copied!", "success"))
+                .catch(fallbackCopy);
+        } else {
+            fallbackCopy();
+        }
     };
 
     const filledCount = board.filter(n => n !== null).length;
-    const btnText = filledCount < 25 ? `Place Number ${filledCount + 1}` : "Bas Bhai, Ho Gaya";
+    const btnText = filledCount < 25 ? `Place Number ${filledCount + 1}` : "Ready to Play";
     const everyoneReady = players.length > 0 && players.every(p => p.ready);
 
     return (
@@ -153,7 +172,7 @@ export default function Setup({ user, roomId, board, setBoard, onBack, addToast 
                         onClick={handleStartGame}
                         disabled={!everyoneReady}
                     >
-                        {!everyoneReady ? "Sabka Wait Kar..." : "Chalo Machayein!"}
+                        {!everyoneReady ? "Waiting for others..." : "Start Game!"}
                     </button>
                 </div>
             )}
@@ -190,7 +209,7 @@ export default function Setup({ user, roomId, board, setBoard, onBack, addToast 
                     style={{width:'auto', background:'rgba(255, 69, 58, 0.1)', color:'#FF453A'}}
                     onClick={handleLeave}
                 >
-                    {isHost ? "Cancel Game" : "Bhaagna Hai?"}
+                    {isHost ? "Cancel Game" : "Leave Game"}
                 </button>
             </div>
         </div>

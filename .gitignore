@@ -23,3 +23,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Firebase
+.firebase/
+.firebaserc
+
+# Cloudflare Tunnel
+cloudflared.exe
+cloudflared*

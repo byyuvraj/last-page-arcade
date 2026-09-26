@@ -239,7 +239,7 @@ export default function BloxGame({ user, roomId, hostId, onBack, addToast }) {
         else myRank = 2; 
     }
 
-    // 🆕 TURN MESSAGE LOGIC (Cleaned for Bimgo Style)
+    // 🆕 TURN MESSAGE LOGIC (Cleaned for Bingo Style)
     const isMyTurn = gameState.turn === myRole;
     const opponentName = myRole === 'p1' ? (p2?.name || "Player 2") : (p1?.name || "Player 1");
     
@@ -253,11 +253,11 @@ export default function BloxGame({ user, roomId, hostId, onBack, addToast }) {
             if (selectedLine) {
                 turnMsg = "TAP AGAIN TO LOCK 🔒";
             } else {
-                turnMsg = "CHAL TERI BAARI 🫵";
+                turnMsg = "Your turn! 🫵";
             }
         } 
         else {
-            turnMsg = `Ruk, ${opponentName} Soch Raha Hai...`;
+            turnMsg = `Wait, ${opponentName} is thinking...`;
         }
     }
 
@@ -266,10 +266,10 @@ export default function BloxGame({ user, roomId, hostId, onBack, addToast }) {
             {/* HEADERS */}
             <h2 style={{textAlign:'center', marginBottom: 5, letterSpacing: 3, fontWeight:800}}>BLOX</h2>
 
-            {/* 🆕 UNIFORM TURN INDICATOR (Bimgo Style) */}
+            {/* 🆕 UNIFORM TURN INDICATOR (Bingo Style) */}
             <div className={`turn-indicator ${isMyTurn && !gameOver && p2 ? 'active' : ''}`}>
                 {turnMsg}
-                {/* The Timer is now a separate, bold element just like Bimgo */}
+                {/* The Timer is now a separate, bold element just like Bingo */}
                 {isMyTurn && !gameOver && !selectedLine && (
                     <span style={{marginLeft: 10, fontSize: '1.2rem', fontWeight: 700}}>
                         {timeLeft}s
@@ -329,7 +329,7 @@ export default function BloxGame({ user, roomId, hostId, onBack, addToast }) {
                         }}
                         onClick={handleExit}
                     >
-                        {(user.id === hostId) ? "End Game" : "Bhaagna Hai?"}
+                        {(user.id === hostId) ? "End Game" : "Leave Game"}
                     </button>
                 </div>
 

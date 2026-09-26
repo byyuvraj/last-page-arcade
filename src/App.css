@@ -1,26 +1,4 @@
 /* =========================================
-   0. SIGNATURE SELECTION STYLE
-   (The "Highlighter" Effect)
-   ========================================= */
-::selection {
-  background-color: #ffc107;
-  color: #000000;
-}
-::-moz-selection { background: #ffc107; color: #000; }
-
-/* 2. UI OVERRIDES: Standard Grey */
-footer ::selection,
-button ::selection,
-.logo ::selection {
-  background-color: #e0e0e0;
-  color: #000000;
-}
-
-/* Firefox Backup for UI */
-header ::-moz-selection, footer ::-moz-selection, button ::-moz-selection {
-  background: #e0e0e0; color: #000;
-}
-/* =========================================
    1. GLOBAL THEME & VARIABLES
    (The "Apple Dark" Design System)
    ========================================= */
@@ -45,6 +23,13 @@ header ::-moz-selection, footer ::-moz-selection, button ::-moz-selection {
 * {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
+  user-select: none; /* Disable text selection globally */
+  -webkit-user-select: none;
+}
+
+input, textarea {
+  user-select: text;
+  -webkit-user-select: text;
 }
 
 html, body {
@@ -83,15 +68,7 @@ body {
   }
 }
 
-/* Background Mesh */
-.background-blob {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background: radial-gradient(circle at 50% 20%, rgba(0, 122, 255, 0.12), transparent 50%);
-  z-index: -1;
-  pointer-events: none;
-}
+
 
 /* Typography */
 h1 { font-size: 2rem; font-weight: 700; margin: 20px 0 10px 0; text-align: center; letter-spacing: -0.5px; }
@@ -529,7 +506,7 @@ button:disabled { opacity: 0.4; }
 
 
 /* =========================================
-   3. GAME MODULE: BIMGO (Bingo)
+   3. GAME MODULE: BINGO (Bingo)
    ========================================= */
 
 /* The 5x5 Grid */
@@ -560,12 +537,12 @@ button:disabled { opacity: 0.4; }
 }
 .cell-setup:active, .cell-play:active { transform: scale(0.95); }
 
-/* Bimgo States */
+/* Bingo States */
 .cell-setup.filled { background: var(--primary); color: white; box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3); }
 .cell-play.marked { background: var(--accent); color: white; box-shadow: 0 2px 8px rgba(52, 199, 89, 0.3); }
 .grid-disabled { opacity: 0.5; filter: grayscale(1); pointer-events: none; }
 
-/* Bimgo UI Elements */
+/* Bingo UI Elements */
 .award-track { display: flex; justify-content: space-between; margin-bottom: 20px; padding: 0 10px; width: 100%; }
 .award-letter { font-size: 2.8rem; font-weight: 800; color: rgba(255,255,255,0.08); }
 .award-letter.unlocked { color: var(--gold); text-shadow: 0 0 20px rgba(255, 214, 10, 0.6); transform: scale(1.1) translateY(-2px); }
@@ -638,7 +615,7 @@ button:disabled { opacity: 0.4; }
   transform: translateY(-2px);
 }
 
-/* Bimgo Strike Lines */
+/* Bingo Strike Lines */
 .strike-line {
   position: absolute; background-color: white; border-radius: 10px; opacity: 0.9;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.8); pointer-events: none; z-index: 5;

@@ -112,14 +112,14 @@ export default function Winner({ rank, onRestart, onExit, isHost, playerCount = 
                         </button>
                     )}
 
-                    {/* 2. Back to Adda */}
+                    {/* 2. Back to Lobby */}
                     <button className="btn-secondary-action" onClick={onExit}>
-                        Back to Adda 🏠
+                        Back to Lobby 🏠
                     </button>
 
                     {/* 3. Minimize */}
                     <button className="btn-text" onClick={() => setMinimized(true)}>
-                        Board Dekhne De 🧐
+                        Let me see the board 🧐
                     </button>
                 </div>
             </div>

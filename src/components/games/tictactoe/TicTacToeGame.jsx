@@ -177,7 +177,7 @@ export default function TicTacToeGame({ user, roomId, hostId, onBack, addToast }
        else myRank = "DRAW"; // Draw
     }
 
-    // 🆕 5. TURN MESSAGE (Bimgo Style)
+    // 🆕 5. TURN MESSAGE (Bingo Style)
     const isMyTurn = gameState.turn === myRole;
     const opponentName = myRole === 'p1' ? (p2?.name || "Player 2") : (p1?.name || "Player 1");
     
@@ -185,16 +185,16 @@ export default function TicTacToeGame({ user, roomId, hostId, onBack, addToast }
     if (gameOver) {
         turnMsg = winner ? "GAME OVER" : "DRAW! 🤝";
     } else if (isMyTurn) {
-        turnMsg = "CHAL TERI BAARI 🫵";
+        turnMsg = "Your turn! 🫵";
     } else {
-        turnMsg = `Ruk, ${opponentName} Soch Raha Hai...`;
+        turnMsg = `Wait, ${opponentName} is thinking...`;
     }
 
     return (
         <div className="card glass" style={{maxWidth: 400, margin:'0 auto'}}>
             <h2 style={{textAlign:'center', marginBottom:5, letterSpacing:2, fontWeight:800}}>TIC TAC TOE</h2>
 
-            {/* UNIFORM TURN INDICATOR (Bimgo Style) */}
+            {/* UNIFORM TURN INDICATOR (Bingo Style) */}
             <div className={`turn-indicator ${isMyTurn && !gameOver ? 'active' : ''}`}>
                 {turnMsg}
                 {/* Timer: Bold and Separate */}
@@ -259,7 +259,7 @@ export default function TicTacToeGame({ user, roomId, hostId, onBack, addToast }
                         }}
                         onClick={handleExit}
                     >
-                        {(user.id === hostId) ? "End Game" : "Bhaagna Hai?"}
+                        {(user.id === hostId) ? "End Game" : "Leave Game"}
                     </button>
                 </div>
 
