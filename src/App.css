@@ -548,7 +548,7 @@ button:disabled { opacity: 0.4; }
 .award-letter.unlocked { color: var(--gold); text-shadow: 0 0 20px rgba(255, 214, 10, 0.6); transform: scale(1.1) translateY(-2px); }
 
 
-/* INDICATOR PILL (Chal Teri Baari) */
+/* INDICATOR PILL (Your Turn) */
 
 /* 1. THE TURN INDICATOR (Clean Glass) */
 .turn-indicator {

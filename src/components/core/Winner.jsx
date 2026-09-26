@@ -7,14 +7,14 @@ export default function Winner({ rank, onRestart, onExit, isHost, playerCount = 
     // --- 1. MEME TEXT LOGIC ---
     const getHeaderText = () => {
         // 🆕 DRAW LOGIC
-        if (rank === "DRAW") return "DRAW HO GAYA"; 
+        if (rank === "DRAW") return "IT'S A DRAW"; 
 
-        if (rank === 1) return "BHAUKAAAL!";
+        if (rank === 1) return "VICTORY!";
         // 2 Players: Loser gets roasted
-        if (playerCount === 2 && rank === 2) return "TUMSE NA HO PAYEGA BETA";
+        if (playerCount === 2 && rank === 2) return "BETTER LUCK NEXT TIME";
         // 3+ Players: 2nd Place is safe, Losers roasted
-        if (playerCount > 2 && rank === 2) return "SHABAASH!";
-        return "TUMSE NA HO PAYEGA BETA";
+        if (playerCount > 2 && rank === 2) return "NICE WORK!";
+        return "BETTER LUCK NEXT TIME";
     };
 
     const getOrdinal = (n) => {

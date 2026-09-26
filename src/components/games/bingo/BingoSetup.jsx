@@ -130,7 +130,7 @@ export default function Setup({ user, roomId, board, setBoard, onBack, addToast 
     return (
         <div className="card glass" style={{maxWidth: 500, margin:'0 auto'}}>
             {/* HEADERS */}
-            <h2 style={{textAlign:'center', marginBottom: 5, letterSpacing: 2, fontWeight:800}}>Tikdam Bitha Le</h2>
+            <h2 style={{textAlign:'center', marginBottom: 5, letterSpacing: 2, fontWeight:800}}>Board Setup</h2>
             <p style={{textAlign: 'center', color: '#8E8E93', fontSize: '0.9rem', marginBottom: 20}}>
                 Fill numbers 1-25 or Shuffle
             </p>
