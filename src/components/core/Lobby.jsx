@@ -108,7 +108,7 @@ export default function Lobby({ user, setUser, setRoom, setView, addToast }) {
 
                     <div className="input-group" style={{marginBottom: 25}}>
                         <input
-                            placeholder="Tera Naam"
+                            placeholder="Your Name"
                             value={inputName}
                             onChange={e => setInputName(e.target.value)}
                             style={{
