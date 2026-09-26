@@ -82,10 +82,10 @@ export default function Lobby({ user, setUser, setRoom, setView, addToast }) {
                     ready: false
                 }).then(() => {
                     addToast(`Joined room ${code}!`, "success");
+                    setView("selector"); 
                 }).catch(err => {
                     addToast("Failed to join room.", "error");
                 });
-                setView("selector"); 
             } else {
                 addToast("Room not found!", "error");
             }
