@@ -180,8 +180,8 @@ export default function Setup({ user, roomId, board, setBoard, onBack, addToast 
             {!isHost && isReady && (
                  <div style={{
                     textAlign:'center', padding: 12, marginBottom: 20,
-                    background:'rgba(255,255,255,0.05)', borderRadius: 12,
-                    fontSize: '0.9rem', color: 'rgba(255,255,255,0.6)', fontStyle: 'italic'
+                    background:'white', border: '2px dashed rgba(0,0,0,0.2)', borderRadius: 4,
+                    fontSize: '1rem', color: 'var(--text-sec)', fontFamily: "'Caveat', cursive"
                 }}>
                     Host will start the game soon...
                  </div>
@@ -200,13 +200,13 @@ export default function Setup({ user, roomId, board, setBoard, onBack, addToast 
 
             {/* UNIFIED FOOTER */}
             <div className="game-footer">
-                <span style={{color: 'rgba(255,255,255,0.4)', fontSize:'0.85rem'}}>
-                    Room: <b style={{color:'white'}}>{roomId}</b>
+                <span style={{color: 'var(--text-sec)', fontSize:'0.85rem'}}>
+                    Room: <b style={{color:'var(--primary)'}}>{roomId}</b>
                 </span>
                 
                 <button 
                     className="btn-xs" 
-                    style={{width:'auto', background:'rgba(255, 69, 58, 0.1)', color:'#FF453A'}}
+                    style={{width:'auto', background:'white', color:'var(--danger)', border: '2px solid var(--danger)'}}
                     onClick={handleLeave}
                 >
                     {isHost ? "Cancel Game" : "Leave Game"}

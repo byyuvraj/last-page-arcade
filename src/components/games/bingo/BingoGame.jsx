@@ -271,9 +271,9 @@ const handleMove = (num) => {
                 <div style={{ display:'flex', gap:8, justifyContent:'center', margin:'10px 0', flexWrap:'wrap' }}>
                     {winnersList.map((w, i) => (
                         <div key={i} style={{
-                            background: 'rgba(255, 214, 10, 0.15)', 
-                            border: '1px solid #FFD60A', color: '#FFD60A',
-                            padding: '4px 10px', borderRadius: 12, fontSize: '0.8rem', fontWeight: 700
+                            background: 'white', 
+                            border: '2px solid var(--gold)', color: 'var(--gold)',
+                            padding: '4px 10px', borderRadius: 12, fontSize: '1rem', fontWeight: 700
                         }}>
                            #{w.rank} {w.name}
                         </div>
@@ -321,8 +321,8 @@ const handleMove = (num) => {
                 
                 {/* 1. LEFT: Room ID */}
                 <div style={{flex: 1, textAlign: 'left'}}>
-                    <span style={{color: 'rgba(255,255,255,0.4)', fontSize:'0.85rem'}}>
-                        Room: <b style={{color:'white'}}>{roomId}</b>
+                    <span style={{color: 'var(--text-sec)', fontSize:'0.85rem'}}>
+                        Room: <b style={{color:'var(--primary)'}}>{roomId}</b>
                     </span>
                 </div>
 

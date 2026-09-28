@@ -130,7 +130,7 @@ export default function App() {
         }
         // ------------------------------------------
 
-        if (!data.activeGame) setView("selector"); 
+        if (!data.activeGame) setView("lobby"); 
         else if (data.activeGame === "BINGO") {
             if (data.status === "SETUP") setView("bingo-setup");
             else if (data.status === "PLAYING") setView("bingo-game");
@@ -171,12 +171,6 @@ export default function App() {
 
   return (
     <div className="app-container">
-      <header>
-        <div className="logo">
-           {view.includes('bingo') ? 'Bingo' : 'Last Page Arcade'}
-        </div>
-      </header>
-
       <main className="main-content">
           {view === "restoring" && (
               <div className="card glass" style={{textAlign:'center', padding: 40}}>
@@ -185,22 +179,7 @@ export default function App() {
           )}
 
           {view === "lobby" && (
-            <Lobby user={user} setUser={setUser} setRoom={setRoom} setView={setView} addToast={addToast} />
-          )}
-
-          {view === "selector" && room.data && (
-            <GameSelector 
-                user={user}
-                roomId={room.id}
-                hostId={room.data.hostId}
-                players={
-                    room.data.players 
-                    ? Object.entries(room.data.players).map(([key, val]) => ({ id: key, ...val })) 
-                    : []
-                }
-                onBack={handleBackToLobby}
-                addToast={addToast}
-            />
+            <Lobby user={user} setUser={setUser} setRoom={setRoom} room={room} setView={setView} addToast={addToast} />
           )}
 
           {view === "bingo-setup" && (

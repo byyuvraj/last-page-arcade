@@ -48,28 +48,26 @@ export default function ToastContainer({ toasts, removeToast }) {
                         padding: '12px 16px',
                         borderRadius: 12,
                         fontSize: '0.95rem',
-                        fontWeight: 500,
-                        backdropFilter: 'blur(20px)',
-                        border: '1px solid rgba(255,255,255,0.2)',
+                        fontWeight: 700,
+                        fontFamily: "'Kalam', cursive",
+                        background: 'white',
+                        border: '2px solid rgba(0,0,0,0.2)',
                         animation: 'slideIn 0.3s ease-out',
                         cursor: 'pointer',
                         maxWidth: 400,
                         margin: '0 auto',
                         // COLOR LOGIC:
                         ...(toast.type === 'success' && {
-                            background: 'rgba(52, 199, 89, 0.2)',
-                            color: '#34C759', // Green
-                            borderColor: 'rgba(52, 199, 89, 0.3)'
+                            color: 'var(--accent)',
+                            borderColor: 'var(--accent)'
                         }),
                         ...(toast.type === 'error' && {
-                            background: 'rgba(255, 69, 58, 0.2)',
-                            color: '#FF453A', // Red
-                            borderColor: 'rgba(255, 69, 58, 0.3)'
+                            color: 'var(--danger)',
+                            borderColor: 'var(--danger)'
                         }),
                         ...(toast.type === 'info' && {
-                            background: 'rgba(0, 122, 255, 0.2)',
-                            color: '#007AFF', // Blue
-                            borderColor: 'rgba(0, 122, 255, 0.3)'
+                            color: 'var(--primary)',
+                            borderColor: 'var(--primary)'
                         })
                     }}
                     onClick={() => removeToast(toast.id)}

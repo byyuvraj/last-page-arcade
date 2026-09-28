@@ -27,8 +27,8 @@ export default function Winner({ rank, onRestart, onExit, isHost, playerCount = 
 
     const headerText = getHeaderText();
     
-    // 🆕 THEME COLOR UPDATE (White for Draw)
-    const themeColor = rank === 1 ? '#FFD60A' : rank === "DRAW" ? '#FFFFFF' : rank === 2 ? '#C0C0C0' : '#FF453A';
+    // 🆕 THEME COLOR UPDATE (Darker colors for light mode)
+    const themeColor = rank === 1 ? '#fbc02d' : rank === "DRAW" ? '#546e7a' : rank === 2 ? '#78909c' : '#c62828';
 
     // --- 2. CONFETTI EFFECT ---
     useEffect(() => {
@@ -70,7 +70,7 @@ export default function Winner({ rank, onRestart, onExit, isHost, playerCount = 
                 <span style={{color: themeColor, fontWeight: 800, letterSpacing: 0.5}}>
                     {rank === 1 ? "WINNER" : `RANK #${rank}`}
                 </span>
-                <span style={{color:'white', opacity: 0.5, fontSize: '0.9rem'}}>Tap to maximize</span>
+                <span style={{color:'var(--text-sec)', fontSize: '0.9rem'}}>Tap to maximize</span>
             </div>
         );
     }
@@ -91,7 +91,7 @@ export default function Winner({ rank, onRestart, onExit, isHost, playerCount = 
                 </h1>
                 
                 <p className="winner-subtitle">
-                    You finished <span style={{color:'white', fontWeight:'bold'}}>{getOrdinal(rank)}</span>
+                    You finished <span style={{color:'var(--primary)', fontWeight:'bold'}}>{getOrdinal(rank)}</span>
                 </p>
 
                 {/* ACTION BUTTONS */}
@@ -104,8 +104,9 @@ export default function Winner({ rank, onRestart, onExit, isHost, playerCount = 
                             onClick={onRestart}
                             disabled={!isHost}
                             style={{ 
-                                background: isHost ? themeColor : 'rgba(255,255,255,0.1)', 
-                                color: isHost ? '#000' : '#888'
+                                background: isHost ? themeColor : 'white', 
+                                color: isHost ? 'white' : 'var(--text-sec)',
+                                border: isHost ? 'none' : '2px dashed var(--text-sec)'
                             }}
                         >
                             {isHost ? "Play Again ↺" : "Wait for Host..."}

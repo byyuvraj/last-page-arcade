@@ -99,10 +99,10 @@ export default function GameSelector({ user, roomId, players, hostId, onBack, ad
     };
 
     return (
-        <div className="card glass" style={{maxWidth: 500, margin: '0 auto'}}>
+        <div className="paper-card" style={{maxWidth: 500, margin: '0 auto'}}>
             {/* HEADER */}
             <h2 style={{textAlign: 'center', marginBottom: 5, fontSize:'1.8rem', fontWeight:800}}>ARCADE</h2>
-            <p style={{textAlign: 'center', color: '#8E8E93', fontSize: '0.9rem', marginBottom: 20}}>
+            <p style={{textAlign: 'center', color: 'var(--text-sec)', fontSize: '0.9rem', marginBottom: 20}}>
                 Choose your battlefield
             </p>
             
@@ -133,15 +133,15 @@ export default function GameSelector({ user, roomId, players, hostId, onBack, ad
                         <div 
                             key={g.id}
                             style={{
-                                background: 'rgba(255,255,255,0.05)',
-                                border: isOpen ? '1px solid rgba(255,255,255,0.3)' : '1px solid rgba(255,255,255,0.1)',
-                                borderRadius: 20,
+                                border: isOpen ? '2px solid var(--primary)' : '2px dashed rgba(0,0,0,0.2)',
+                                borderRadius: 8,
                                 padding: 20,
-                                transition: 'all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)',
+                                transition: 'all 0.3s',
                                 transform: isOpen ? 'scale(1.02)' : 'scale(1)',
-                                boxShadow: isOpen ? '0 10px 30px rgba(0,0,0,0.2)' : 'none',
+                                boxShadow: isOpen ? '4px 4px 0 rgba(0,0,0,0.1)' : 'none',
                                 position: 'relative',
-                                overflow: 'hidden'
+                                overflow: 'hidden',
+                                background: 'white'
                             }}
                         >
                             {/* Decorative Background Tint */}
@@ -158,8 +158,8 @@ export default function GameSelector({ user, roomId, players, hostId, onBack, ad
                             >
                                 <div style={{fontSize: '2.5rem'}}>{g.icon}</div>
                                 <div style={{flex: 1}}>
-                                    <div style={{fontWeight: 800, fontSize: '1.3rem', letterSpacing: 0.5}}>{g.name}</div>
-                                    <div style={{fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)', fontWeight: 500}}>
+                                    <div style={{fontWeight: 800, fontSize: '1.5rem', fontFamily: "'Kalam', cursive"}}>{g.name}</div>
+                                    <div style={{fontSize: '1rem', color: 'var(--text-sec)', fontWeight: 500}}>
                                         {g.tagline}
                                     </div>
                                 </div>
@@ -176,11 +176,10 @@ export default function GameSelector({ user, roomId, players, hostId, onBack, ad
 
                             {/* 🆕 EXPANDABLE SECTION (Instructions & Button) */}
                             {isOpen && (
-                                <div style={{marginTop: 15, paddingTop: 15, borderTop: '1px solid rgba(255,255,255,0.1)', position:'relative', animation: 'fadeIn 0.3s ease'}}>
+                                <div style={{marginTop: 15, paddingTop: 15, borderTop: '2px dashed rgba(0,0,0,0.1)', position:'relative', animation: 'fadeIn 0.3s ease'}}>
                                     
-                                    {/* HOW TO PLAY */}
-                                    <div style={{fontSize: '0.8rem', color: '#D1D1D6', marginBottom: 20, lineHeight: 1.6}}>
-                                        <b style={{color:'white', display:'block', marginBottom:5}}>How to play:</b>
+                                    <div style={{fontSize: '1rem', color: 'var(--text-sec)', marginBottom: 20, lineHeight: 1.6}}>
+                                        <b style={{color:'var(--primary)', display:'block', marginBottom:5}}>How to play:</b>
                                         <ul style={{paddingLeft: 20, margin: 0}}>
                                             {g.instructions.map((step, i) => (
                                                 <li key={i} style={{marginBottom: 4}}>{step}</li>
@@ -203,8 +202,8 @@ export default function GameSelector({ user, roomId, players, hostId, onBack, ad
                                     ) : (
                                         <div style={{
                                             textAlign:'center', padding: 10, 
-                                            background:'rgba(255,255,255,0.1)', borderRadius: 12,
-                                            fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)', fontStyle: 'italic'
+                                            background:'white', borderRadius: 4, border: '2px dashed rgba(0,0,0,0.2)',
+                                            fontSize: '1rem', color: 'var(--text-sec)', fontFamily: "'Caveat', cursive"
                                         }}>
                                             Waiting for Host to start...
                                         </div>
@@ -217,14 +216,14 @@ export default function GameSelector({ user, roomId, players, hostId, onBack, ad
             </div>
 
             {/* FOOTER */}
-            <div style={{ marginTop: 30, display:'flex', justifyContent:'space-between', alignItems:'center', width:'100%', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: 15 }}>
-                <span style={{color: 'rgba(255,255,255,0.4)', fontSize:'0.9rem'}}>
-                    Room: <b style={{color:'white'}}>{roomId}</b>
+            <div style={{ marginTop: 30, display:'flex', justifyContent:'space-between', alignItems:'center', width:'100%', borderTop: '2px dashed rgba(0,0,0,0.2)', paddingTop: 15 }}>
+                <span style={{color: 'var(--text-sec)', fontSize:'0.9rem'}}>
+                    Room: <b style={{color:'var(--primary)'}}>{roomId}</b>
                 </span>
                 
                 <button 
                     className="btn-xs" 
-                    style={{width:'auto', background:'rgba(255, 69, 58, 0.1)', color:'#FF453A'}}
+                    style={{width:'auto', background:'white', border: '2px solid var(--danger)', color:'var(--danger)'}}
                     onClick={handleLeave}
                 >
                     Leave Room

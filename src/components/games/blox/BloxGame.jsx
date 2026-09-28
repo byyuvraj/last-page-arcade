@@ -281,13 +281,13 @@ export default function BloxGame({ user, roomId, hostId, onBack, addToast }) {
             <div style={{display:'flex', justifyContent:'space-between', marginBottom: 20, marginTop: 20, gap: 10}}>
                 <div className={`player-badge ${gameState.turn === 'p1' ? 'active' : ''}`} style={{borderColor: '#FF3B30'}}>
                     <div style={{fontSize:'0.75rem', color:'#FF3B30', fontWeight:700, letterSpacing:1}}>PLAYER 1</div>
-                    <div style={{fontSize:'1.8rem', fontWeight:800, color:'#fff'}}>{gameState.scores?.p1 || 0}</div>
+                    <div style={{fontSize:'1.8rem', fontWeight:800, color:'var(--primary)', fontFamily: "'Caveat', cursive"}}>{gameState.scores?.p1 || 0}</div>
                     <div style={{fontWeight:'bold', fontSize:'0.8rem'}}>{p1?.name || "Waiting..."} {myRole === 'p1' && '(YOU)'}</div>
                 </div>
 
                 <div className={`player-badge ${gameState.turn === 'p2' ? 'active' : ''}`} style={{borderColor: '#007AFF'}}>
                     <div style={{fontSize:'0.75rem', color:'#007AFF', fontWeight:700, letterSpacing:1}}>PLAYER 2</div>
-                    <div style={{fontSize:'1.8rem', fontWeight:800, color:'#fff'}}>{gameState.scores?.p2 || 0}</div>
+                    <div style={{fontSize:'1.8rem', fontWeight:800, color:'var(--primary)', fontFamily: "'Caveat', cursive"}}>{gameState.scores?.p2 || 0}</div>
                     <div style={{fontWeight:'bold', fontSize:'0.8rem'}}>{p2?.name || "Waiting..."} {myRole === 'p2' && '(YOU)'}</div>
                 </div>
             </div>
@@ -306,8 +306,8 @@ export default function BloxGame({ user, roomId, hostId, onBack, addToast }) {
                 
                 {/* 1. LEFT: Room ID */}
                 <div style={{flex: 1, textAlign: 'left'}}>
-                    <span style={{color: 'rgba(255,255,255,0.4)', fontSize:'0.85rem'}}>
-                        Room: <b style={{color:'white'}}>{roomId}</b>
+                    <span style={{color: 'var(--text-sec)', fontSize:'0.85rem'}}>
+                        Room: <b style={{color:'var(--primary)'}}>{roomId}</b>
                     </span>
                 </div>
 
@@ -322,9 +322,9 @@ export default function BloxGame({ user, roomId, hostId, onBack, addToast }) {
                         className="btn-xs" 
                         style={{
                             width:'auto', 
-                            background:'rgba(255, 69, 58, 0.1)', 
+                            background:'white', 
                             color:'#FF453A',
-                            border: 'none',
+                            border: '2px solid #FF453A',
                             whiteSpace: 'nowrap'
                         }}
                         onClick={handleExit}

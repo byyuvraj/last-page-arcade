@@ -236,8 +236,8 @@ export default function TicTacToeGame({ user, roomId, hostId, onBack, addToast }
                 
                 {/* 1. LEFT: Room ID */}
                 <div style={{flex: 1, textAlign: 'left'}}>
-                    <span style={{color: 'rgba(255,255,255,0.4)', fontSize:'0.85rem'}}>
-                        Room: <b style={{color:'white'}}>{roomId}</b>
+                    <span style={{color: 'var(--text-sec)', fontSize:'0.85rem'}}>
+                        Room: <b style={{color:'var(--primary)'}}>{roomId}</b>
                     </span>
                 </div>
 
@@ -252,9 +252,9 @@ export default function TicTacToeGame({ user, roomId, hostId, onBack, addToast }
                         className="btn-xs" 
                         style={{
                             width:'auto', 
-                            background:'rgba(255, 69, 58, 0.1)', 
+                            background:'white', 
                             color:'#FF453A',
-                            border: 'none',
+                            border: '2px solid #FF453A',
                             whiteSpace: 'nowrap'
                         }}
                         onClick={handleExit}
